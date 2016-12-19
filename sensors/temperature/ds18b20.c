@@ -30,8 +30,6 @@ int main(void)
 
 	while(1){	
 		ret = read(fd, buf, BUFSIZE);
-		printf("%i\n",ret);
-		printf(buf);
 		if(0 == ret){
 			break;	
 		}
