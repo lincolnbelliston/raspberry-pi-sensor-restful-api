@@ -1,3 +1,5 @@
 <?php
-echo 'temperature'
+
+exec('./temp', $output);
+echo $output[0];
  ?>
