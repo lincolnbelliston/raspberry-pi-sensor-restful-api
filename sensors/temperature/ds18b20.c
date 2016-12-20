@@ -9,25 +9,33 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
+#include <string.h>
 
 #define  BUFSIZE  128
 
 // ds18b20 sensor writes temperature to a file located here
 char* addr = "/sys/bus/w1/devices/28-0316357079ff/w1_slave";
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
-	char* units = argv[1];
-	int duration = atoi(argv[1]);
+	int duration = atoi(argv[2]);
+  char units;
 
 	time_t seconds;
 	float temp;
-	int i, j;
+	int i, j, k;
 	int fd;
 	int ret;
 
 	char buf[BUFSIZE];
 	char tempBuf[5];
+
+
+for (k=0; k<duration; k = k+1){
+  
+  struct timespec tstart={0,0}, tend={0,0};
+  clock_gettime(CLOCK_MONOTONIC, &tstart);
 
 	// open file containing temperature reading
 	fd = open(addr, O_RDONLY);
@@ -66,28 +74,39 @@ int main(int argc, char* argv[])
 
 	// convert temperature to desired units
 	temp = (float)atoi(tempBuf) / 1000;
-	switch(units)
-	{
-		case 'c':
-		case 'C':
-			break;
-		case 'f':
-		case 'F':
-			temp = temp * 9/5 + 32;
-			break;
-		case 'k':
-		case 'K':
-			temp = temp - 273.15;
-		default:
-			//temp = NULL;
-	}
-	temp = temp * 9/5 + 32;
+
+  if(argc > 1)
+  {  
+  	units = *argv[1];
+
+  	switch(units)
+  	{
+  		case 'c':
+  		case 'C':
+  			break;
+  		case 'f':
+  		case 'F':
+  			temp = temp * 9/5 + 32;
+  			break;
+  		case 'k':
+  		case 'K':
+  			temp = temp + 273.15;
+   		default:
+  			temp = temp;
+  	}
+  }
+
 
 	seconds = time(NULL);
 
-	printf("%ld\n.%.3f\n",seconds,temp);
+	printf("%ld_%.3f\n",seconds,temp);
 
 	close(fd);
+  
+  clock_gettime(CLOCK_MONOTONIC, &tend);
 
+
+//  sleep(1);
+}
 	return 0;
 }
