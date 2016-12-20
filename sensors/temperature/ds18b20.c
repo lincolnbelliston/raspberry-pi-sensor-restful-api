@@ -22,7 +22,6 @@ int main(int argc, char *argv[])
 	int duration = atoi(argv[2]);
   char units;
 
-	time_t seconds;
 	float temp;
 	int i, j, k;
 	int fd;
@@ -97,9 +96,7 @@ for (k=0; k<duration; k = k+1){
   }
 
 
-	seconds = time(NULL);
-
-	printf("%ld_%.3f\n",seconds,temp);
+	printf("%.3f\n",temp);
 
 	close(fd);
   
