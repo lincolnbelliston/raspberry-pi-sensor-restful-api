@@ -1,3 +1,6 @@
+/*************************************
+* Source code for temp executable
+**************************************/
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -9,10 +12,15 @@
 
 #define  BUFSIZE  128
 
+// ds18b20 sensor writes temperature to a file located here
 char* addr = "/sys/bus/w1/devices/28-0316357079ff/w1_slave";
 
-int main(void)
+int main(int argc, char* argv[])
 {
+	char* units = argv[1];
+	int duration = atoi(argv[1]);
+
+	time_t seconds;
 	float temp;
 	int i, j;
 	int fd;
@@ -20,7 +28,8 @@ int main(void)
 
 	char buf[BUFSIZE];
 	char tempBuf[5];
-	
+
+	// open file containing temperature reading
 	fd = open(addr, O_RDONLY);
 
 	if(-1 == fd){
@@ -28,36 +37,57 @@ int main(void)
 		return 1;
 	}
 
-	while(1){	
+	// read the file in 128 byte chunks
+	while(1){
 		ret = read(fd, buf, BUFSIZE);
 		if(0 == ret){
-			break;	
+			break;
 		}
 		if(-1 == ret){
 			if(errno == EINTR){
-				continue;	
+				continue;
 			}
 			perror("read()");
 			close(fd);
 			return 1;
 		}
 	}
-	
 
+
+	// temperature reading begins 2 characters after the letter 't' in the file,
+	// and is 5 characters long
 	for(i=0;i<sizeof(buf);i++){
 		if(buf[i] == 't'){
 			for(j=0;j<sizeof(tempBuf);j++){
-				tempBuf[j] = buf[i+2+j]; 	
+				tempBuf[j] = buf[i+2+j];
 			}
-		}	
+		}
 	}
 
+	// convert temperature to desired units
 	temp = (float)atoi(tempBuf) / 1000;
+	switch(units)
+	{
+		case 'c':
+		case 'C':
+			break;
+		case 'f':
+		case 'F':
+			temp = temp * 9/5 + 32;
+			break;
+		case 'k':
+		case 'K':
+			temp = temp - 273.15;
+		default:
+			//temp = NULL;
+	}
 	temp = temp * 9/5 + 32;
 
-	printf("%.3f F\n",temp);
+	seconds = time(NULL);
+
+	printf("%ld\n.%.3f\n",seconds,temp);
 
 	close(fd);
-	
+
 	return 0;
 }
