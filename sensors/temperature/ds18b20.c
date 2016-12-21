@@ -19,22 +19,16 @@ char* addr = "/sys/bus/w1/devices/28-0316357079ff/w1_slave";
 
 int main(int argc, char *argv[])
 {
-	int duration = atoi(argv[2]);
   char units;
 
 	float temp;
-	int i, j, k;
+	int i,  j;
 	int fd;
 	int ret;
 
 	char buf[BUFSIZE];
 	char tempBuf[5];
 
-
-for (k=0; k<duration; k = k+1){
-  
-  struct timespec tstart={0,0}, tend={0,0};
-  clock_gettime(CLOCK_MONOTONIC, &tstart);
 
 	// open file containing temperature reading
 	fd = open(addr, O_RDONLY);
@@ -100,10 +94,5 @@ for (k=0; k<duration; k = k+1){
 
 	close(fd);
   
-  clock_gettime(CLOCK_MONOTONIC, &tend);
-
-
-//  sleep(1);
-}
 	return 0;
 }

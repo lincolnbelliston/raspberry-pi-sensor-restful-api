@@ -1,9 +1,9 @@
 <?php
-
-
 header("Content-Type:application/json");
+
 $units = "C";
 $duration = 1;
+$interval = 1;
 $success = true;
 
 if(!empty($_GET['units'])){
@@ -14,8 +14,11 @@ if(!empty($_GET['duration'])){
   $duration = (int)$_GET['duration'];
 }
 
+if(!empty($_GET['interval'])){
+  $interval = (int)$_GET['interval'];
+}
 
-$command = './temp '.$units.' 1';
+$command = './temp '.$units;
 
 $data = [];
 for($i=0; $i<$duration; $i++)
@@ -23,7 +26,7 @@ for($i=0; $i<$duration; $i++)
   $tstart = microtime(true);
   
   exec($command, $output);
-
+  
   if(!empty ($output))
   {
       $data_row['time'] = microtime(true);
@@ -38,9 +41,12 @@ for($i=0; $i<$duration; $i++)
     $success = false;
     break;
   }
+
+  $output = "";
+
   $tend = microtime(true);
   
-  $sleep = (1 - ($tend - $tstart)) * 1000000;
+  $sleep = ($interval - ($tend - $tstart)) * 1000000 ;
   usleep($sleep);
 }
 
