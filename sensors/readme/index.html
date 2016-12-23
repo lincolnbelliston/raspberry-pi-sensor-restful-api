@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+  </head>
+  <body>
+    <h2>README</h2>
+    <h3>/temperature</h3>
+    <table>
+      <tr>
+        <td>"units="</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>"C" (default)</td>
+      <tr>
+        <td></td>
+        <td>"F"</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>"K"</td>
+      </tr>
+      <tr>
+        <td>"duration=</td>
+        <td>[seconds]"</td>
+      </tr>
+      <tr>
+        <td>"interval=</td>
+        <td>[seconds]"</td>
+      </tr>
+    </table>
+
+    <p>Example:
+    /sensors/temperature/index.php?units=C&duration=60&interval=5<p>
+    <p>(will return a temperature reading from the DS18b20 module every 5 seconds for 60 seconds in
+    degrees Celcius)</p>
+
+    <h3>/barometer</h3>
+
+    <table>
+      <tr>
+        <td>"tunits="</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>"C" (default)</td>
+      <tr>
+        <td></td>
+        <td>"F"</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>"K"</td>
+      </tr>
+        
+      <tr>
+        <td>"punits="</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>"Pa" (default)</td>
+      <tr>
+        <td></td>
+        <td>"atm"</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>"PSI"</td>
+      </tr>
+      <tr>
+        <td>"aunits="</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>"m" (default)</td>
+      <tr>
+        <td></td>
+        <td>"ft"</td>
+      </tr>
+      <tr>
+        <td>"duration=</td>
+        <td>[seconds]"</td>
+      </tr>
+      <tr>
+        <td>"interval=</td>
+        <td>[seconds]"</td>
+      </tr>
+    </table>
+    <p>Example:
+    /sensors/barometer/index.php?tunits=f&punits=psi&aunits=ft&duration=60&interval=5</p>
+    <p>(will return temperature, pressure, and altitude readings from the
+    BMP180 module every
+    5 seconds for 60 seconds in degrees Fahrenheit, pounds per square inch, and
+    feet respectively)</p>
+
+    <h3>/ultrasonic</h3>
+    <table>
+      <tr>
+        <td>"units="</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>"cm" (default)</td>
+      <tr>
+        <td></td>
+        <td>"in"</td>
+      </tr>
+      <tr>
+        <td>"duration=</td>
+        <td>[seconds]"</td>
+      </tr>
+      <tr>
+        <td>"interval=</td>
+        <td>[seconds]"</td>
+      </tr>
+    </table>
+
+    <p>Example:
+    /sensors/ultrasonic/index.php?units=in&duration=60&interval=5<p>
+    <p>(will return a distance reading from the ultrasonic ranging module every 5 seconds for 60 seconds in
+    degrees Celcius)</p>
+</html>
