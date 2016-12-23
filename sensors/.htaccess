@@ -1,4 +1,0 @@
-AuthName "DTN Raspberry Pi"
-AuthUserFile /var/www/.htpasswd
-AuthType Basic
-Require valid-user
